@@ -41,18 +41,13 @@ static void mqtt_dados_recebidos_cb(void *arg, const u8_t *dados, u16_t comprime
     }
 }
 
-
 static void mqtt_chegando_publicacao_cb(void *arg, const char *topico, u32_t tamanho){
 
-
 }
-
-
 
 static void mqtt_req_cb(void *arg, err_t erro) {
     printf("Requisição MQTT recebida com erro: %d\n", erro);
 }
-
 
 static void mqtt_conectado_cb(mqtt_client_t *cliente, void *arg, mqtt_connection_status_t status) {
     printf("cliente MQTT conectado com o status: %d\n", status);
@@ -60,17 +55,6 @@ static void mqtt_conectado_cb(mqtt_client_t *cliente, void *arg, mqtt_connection
     if (status == MQTT_CONNECT_ACCEPTED) {
         printf("Conexão MQTT Aceita!\n");
 
-        /*
-         * Função mqtt_sub_unsub, função responsável por realizar a inscrição/desinscrição em um tópico específico
-         * ----- Parâmetros -----
-         * 'cliente' -> representa o cliente (placa), que está solicitando a inscrição/desinscrição no tópico
-         * 'aula_mqtt/led' -> tópico ao qual se deseja conectar, pode ser alterado conforme a necessidade, e pode ter o nome que se desejar;
-         * '0' -> qos (qualidade do serviço): 0->prioridade baixa(padrão), 1-> prioridade média, 2-> prioridade máxima
-         * 'mqtt_req_cb' -> Callback para as requisições, veja 'mqtt_req_cb'
-         *  arg -> dados genéricos definidos pelo usuário, podem ser qualquer coisa, para ver onde esses
-         *  são definiddos procure a referência REF01, neste código
-         *  '1' -> define se é uma inscrição ou desinscrição: 1 -> inscriçaõ/0-> desinscrição
-         */
         err_t erro_ret = mqtt_sub_unsub(cliente, "aula_mqtt/led", 0, mqtt_req_cb, arg, 1);
         
         if(erro_ret == ERR_OK) {
@@ -78,17 +62,12 @@ static void mqtt_conectado_cb(mqtt_client_t *cliente, void *arg, mqtt_connection
         }
     }
 }
-
-
-
 int main()
 {
     stdio_init_all();
     adc_init();
     adc_set_temp_sensor_enabled(true);
     adc_select_input(4);
-
-    
 
     // Initialise the Wi-Fi chip
     if (cyw43_arch_init()) {
@@ -138,7 +117,7 @@ int main()
             while(board_button_read());
        } 
        cyw43_arch_poll();
-       sleep_ms(200);
+       sleep_ms(10);
     }
 }
 
@@ -146,10 +125,8 @@ float func_leitura_temp()
 {
     // Leitura do ADC
     float adc_value = adc_read();
-    // Conversão do valor lido para temperatura em graus Celsius
     float leitura_adc = adc_value * (3.3f / (1 << 12)); // 12-bit ADC
     float temperature = (27.0f - ((leitura_adc - 0.706f) /0.001721f));
     
-   // float temperature = (voltage - 0.5f) * 100.0f; // Fórmula de conversão
     return temperature;
 }
