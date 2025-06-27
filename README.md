@@ -1,0 +1,2 @@
+# Monitoramento_Temperatura_Nucleo_Pico_2w
+Monitoramento temperatura nucle Raspberry Pico 2w
